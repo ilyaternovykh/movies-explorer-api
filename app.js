@@ -1,3 +1,4 @@
+const { errors } = require('celebrate');
 const express = require('express');
 const mongoose = require('mongoose');
 const errorHandler = require('./middlewares/error-handler');
@@ -15,6 +16,7 @@ mongoose.connect(MONGO_URL, {
 
 app.use(routes);
 
+app.use(errors());
 app.use(errorHandler);
 
 app.listen(CURRENT_PORT, () => {
