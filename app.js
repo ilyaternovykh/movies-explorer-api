@@ -1,6 +1,7 @@
 const { errors } = require('celebrate');
 const express = require('express');
 const mongoose = require('mongoose');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
 const routes = require('./routes');
 const { CURRENT_PORT, MONGO_URL } = require('./utils/config');
@@ -14,12 +15,13 @@ mongoose.connect(MONGO_URL, {
   useUnifiedTopology: true,
 });
 
+app.use(requestLogger);
+
 app.use(routes);
+
+app.use(errorLogger);
 
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(CURRENT_PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`App listening on port ${CURRENT_PORT}`);
-});
+app.listen(CURRENT_PORT);
