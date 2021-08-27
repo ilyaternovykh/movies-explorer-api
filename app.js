@@ -1,6 +1,8 @@
 const { errors } = require('celebrate');
 const express = require('express');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
+const limiter = require('./middlewares/limiter');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
 const routes = require('./routes');
@@ -16,6 +18,9 @@ mongoose.connect(MONGO_URL, {
 });
 
 app.use(requestLogger);
+app.use(limiter);
+app.set('trust proxy', 'loopback');
+app.use(helmet());
 
 app.use(routes);
 
