@@ -10,7 +10,6 @@ module.exports = (req, res, next) => {
   }
 
   // извлечение токена
-  // const token = req.cookies.jwt;
   const token = authorization.replace('Bearer ', '');
   let payload;
 

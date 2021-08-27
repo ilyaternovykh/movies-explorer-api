@@ -72,6 +72,8 @@ const updateUser = (req, res, next) => {
     })
     .catch((err) => {
       switch (err.name) {
+        case 'MongoError':
+          throw new ConflictError('При обновлении указан email, который уже существует на сервере');
         case 'CastError':
           throw new BadRequestError('Невалидный id');
         case 'ValidationError':
