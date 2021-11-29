@@ -6,6 +6,7 @@ const limiter = require('./middlewares/limiter');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
 const routes = require('./routes');
+const cors = require('./middlewares/cors');
 const { CURRENT_PORT, MONGO_URL } = require('./utils/config');
 
 const app = express();
@@ -18,6 +19,7 @@ mongoose.connect(MONGO_URL, {
 });
 
 app.use(requestLogger);
+app.use(cors);
 app.use(limiter);
 app.set('trust proxy', 'loopback');
 app.use(helmet());
